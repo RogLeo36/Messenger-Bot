@@ -8,14 +8,14 @@ from flask import Flask, request
 
 application = Flask(__name__)
 app = application
-PAT = 'replace_your_own_PAT_here'
-VERIFICATION_TOKEN = 'replace_your_own_token'
+PAT = 'EAAqZCCHcyVggBAGnQA5CxxRsQLDzSZBDi2MskESYH3SWNdMQVZAIZC3ZCLaeW21YjQNd3UPKU5E0uriyZCPP2YuIEKKVadfwx6dZCaZA3oU4umHMSmHEYfx61jkJZAoTGPAJsuiVGZARbZBu2XP1a7WwgKqV4qa2egQpkiY27tyofWP7QZDZD'
+VERIFICATION_TOKEN = 'asdfghjkl'
 
 @app.route('/', methods=['GET'])
 def handle_verification():
-    print "Handling Verification."
+    print ("Handling Verification.")
     if request.args.get('hub.verify_token', '') == VERIFICATION_TOKEN:
-        print "Webhook verified!"
+        print ("Webhook verified!")
         return request.args.get('hub.challenge', '')
     else:
         return "Wrong verification token!"
@@ -36,8 +36,8 @@ def handle_messages():
 
             else:
                 send_message(PAT, sender_id, "Sorry I don't understand that")
-        except Exception, e:
-            print e
+        except:
+            print (e)
             traceback.print_exc()
     return "ok"
 
@@ -70,7 +70,7 @@ def send_message(token, user_id, text):
                       }),
                       headers={'Content-type': 'application/json'})
     if r.status_code != requests.codes.ok:
-        print r.text
+        print (r.text)
 
 # Generate tuples of (sender_id, message_text) from the provided payload.
 # This part technically clean up received data to pass only meaningful data to processIncoming() function
