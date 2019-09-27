@@ -29,7 +29,7 @@ def handle_messages():
     for sender_id, message in messaging_events(payload):
         # Start processing valid requests
         try:
-            response = payload #processIncoming(sender_id, message)
+            response = processIncoming(sender_id, message, payload)
             
             if response is not None:
                 send_message(PAT, sender_id, response)
@@ -41,10 +41,10 @@ def handle_messages():
             traceback.print_exc()
     return "ok"
 
-def processIncoming(user_id, message):
+def processIncoming(user_id, message, payload):
     if message['type'] == 'text':
         message_text = message['data']
-        return message_text
+        return payload
 
     elif message['type'] == 'location':
         response = "I've received location (%s,%s) (y)"%(message['data'][0],message['data'][1])
