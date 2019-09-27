@@ -29,7 +29,7 @@ def handle_messages():
     for sender_id, message in messaging_events(payload):
         # Start processing valid requests
         try:
-            response = processIncoming(sender_id, message)
+            response = payload #processIncoming(sender_id, message)
             
             if response is not None:
                 send_message(PAT, sender_id, response)
