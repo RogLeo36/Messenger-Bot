@@ -44,7 +44,7 @@ def handle_messages():
 def processIncoming(user_id, message):
     if message['type'] == 'text':
         message_text = message['data']
-        return message
+        return message_text
 
     elif message['type'] == 'location':
         response = "I've received location (%s,%s) (y)"%(message['data'][0],message['data'][1])
