@@ -120,6 +120,7 @@ def messaging_events(payload):
             yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
 
 def filter_message(payload):
+    
     data = json.loads(payload)
     messaging_events = data["entry"][0]["messaging"]
 
