@@ -119,13 +119,6 @@ def messaging_events(payload):
         else:
             yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
 
-def filter_message(payload):
-    
-    data = json.loads(payload)
-    messaging_events = data["entry"][0]["messaging"]
-
-    return messaging_events[0]["sender"]["id"]
-
 # Allows running with simple `python <filename> <port>`
 if __name__ == '__main__':
     if len(sys.argv) == 2: # Allow running on customized ports
