@@ -24,21 +24,21 @@ def handle_verification():
 @app.route('/', methods=['POST'])
 def handle_messages():
     payload = request.get_data()
-
+    return payload
     # Handle messages
-    for sender_id, message in messaging_events(payload):
-        # Start processing valid requests
-        try:
-            response = processIncoming(sender_id, message)
+    # for sender_id, message in messaging_events(payload):
+    #     # Start processing valid requests
+    #     try:
+    #         response = processIncoming(sender_id, message)
             
-            if response is not None:
-                send_message(PAT, sender_id, response)
-            else:
-                send_message(PAT, sender_id, "Sorry I don't understand that")
-        except:
-            print (e)
-            traceback.print_exc()
-    return "ok"
+    #         if response is not None:
+    #             send_message(PAT, sender_id, message)
+    #         else:
+    #             send_message(PAT, sender_id, "Sorry I don't understand that")
+    #     except:
+    #         print (e)
+    #         traceback.print_exc()
+    # return "ok"
 
 def processIncoming(user_id, message):
     if message['type'] == 'text':
