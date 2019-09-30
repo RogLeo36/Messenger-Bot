@@ -32,7 +32,7 @@ def handle_messages():
             response = processIncoming(sender_id, message)
             
             if response is not None:
-                send_message(PAT, sender_id, message)
+                send_message(PAT, sender_id, response)
             else:
                 send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
