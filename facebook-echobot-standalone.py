@@ -10,7 +10,8 @@ application = Flask(__name__)
 app = application
 PAT = 'EAAqZCCHcyVggBAGnQA5CxxRsQLDzSZBDi2MskESYH3SWNdMQVZAIZC3ZCLaeW21YjQNd3UPKU5E0uriyZCPP2YuIEKKVadfwx6dZCaZA3oU4umHMSmHEYfx61jkJZAoTGPAJsuiVGZARbZBu2XP1a7WwgKqV4qa2egQpkiY27tyofWP7QZDZD'
 VERIFICATION_TOKEN = 'asdfghjkl'
-
+SEND_API_URL = 'https://graph.facebook.com/v2.12/me/messages?access_token=%s'\
+  % PAT
 @app.route('/', methods=['GET'])
 def handle_verification():
     print ("Handling Verification.")
@@ -23,22 +24,39 @@ def handle_verification():
 # ======================= Bot processing ===========================
 @app.route('/', methods=['POST'])
 def handle_messages():
-    payload = request.get_data()
+    body = json.loads(request.data)
 
-    # Handle messages
-    for sender_id, message in messaging_events(payload):
-        # Start processing valid requests
-        try:
-            response = processIncoming(sender_id, message)
+    try:
+    for entry in body['entry']:
+        if 'messaging' in entry:
+          for message in entry['messaging']:
+            sender = message['sender']['id']
+            if 'message' in message and 'is_echo' in message['message']:
+              return 
+            if 'message' not in message and 'postback' not in message:
+              return 
+            print('sender1111')
+            send_message_to_recipient(json.dumps(body), sender)
+            print('sender')
+            print(sender)
+            return
+        if 'standby' in entry:
+          for message in entry['standby']:
+            sender = message['sender']['id']
+            if 'message' in message and 'is_echo' in message['message']:
+              return 
+            if 'message' not in message and 'postback' not in message:
+              return 
+            print('sender1111')
+            send_message_to_recipient(json.dumps(body), sender)
+            print('sender')
+            print(sender)
+            return
             
-            if response is not None:
-                send_message(PAT, sender_id, response)
-            else:
-                send_message(PAT, sender_id, "Sorry I don't understand that")
-        except:
-            print (e)
-            traceback.print_exc()
-    return "ok"
+    print('sender')
+  except Exception as e:
+     print("swapnilc-Exception sending")
+     print(e)
 
 def processIncoming(user_id, message):
     if message['type'] == 'text':
@@ -118,6 +136,21 @@ def messaging_events(payload):
         
         else:
             yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
+
+def send_message_to_recipient(message_text, recipient_id):
+  message = {
+    'recipient': {
+      'id': recipient_id,
+    },
+    'message': {
+      'text': message_text,
+    },
+  }
+  r = requests.post(SEND_API_URL, data=json.dumps(message), headers=HEADERS)
+  if r.status_code != 200:
+    print('====ERROR====')
+    print(r.json())
+    print('==============')
 
 # Allows running with simple `python <filename> <port>`
 if __name__ == '__main__':
