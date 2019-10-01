@@ -27,36 +27,35 @@ def handle_messages():
     body = json.loads(request.data)
 
     try:
-    for entry in body['entry']:
-        if 'messaging' in entry:
-          for message in entry['messaging']:
-            sender = message['sender']['id']
-            if 'message' in message and 'is_echo' in message['message']:
-              return 
-            if 'message' not in message and 'postback' not in message:
-              return 
-            print('sender1111')
-            send_message_to_recipient(json.dumps(body), sender)
-            print('sender')
-            print(sender)
-            return
-        if 'standby' in entry:
-          for message in entry['standby']:
-            sender = message['sender']['id']
-            if 'message' in message and 'is_echo' in message['message']:
-              return 
-            if 'message' not in message and 'postback' not in message:
-              return 
-            print('sender1111')
-            send_message_to_recipient(json.dumps(body), sender)
-            print('sender')
-            print(sender)
-            return
+        for entry in body['entry']:
+            if 'messaging' in entry:
+              for message in entry['messaging']:
+                sender = message['sender']['id']
+                if 'message' in message and 'is_echo' in message['message']:
+                  return 
+                if 'message' not in message and 'postback' not in message:
+                  return 
+                print('sender1111')
+                send_message_to_recipient(json.dumps(body), sender)
+                print('sender')
+                print(sender)
+                return
+            if 'standby' in entry:
+              for message in entry['standby']:
+                sender = message['sender']['id']
+                if 'message' in message and 'is_echo' in message['message']:
+                  return 
+                if 'message' not in message and 'postback' not in message:
+                  return 
+                print('sender1111')
+                send_message_to_recipient(json.dumps(body), sender)
+                print('sender')
+                print(sender)
+                return
             
-    print('sender')
-  except Exception as e:
-     print("swapnilc-Exception sending")
-     print(e)
+    except Exception as e:
+        print("swapnilc-Exception sending")
+        print(e)
 
 def processIncoming(user_id, message):
     if message['type'] == 'text':
