@@ -24,6 +24,7 @@ def handle_verification():
 @app.route('/', methods=['POST'])
 def handle_messages():
     payload = request.get_data()
+    body = json.loads(request.data)
 
     # Handle messages
     for sender_id, message in messaging_events(payload):
@@ -32,7 +33,7 @@ def handle_messages():
             response = processIncoming(sender_id, message)
             
             if response is not None:
-                send_message(PAT, sender_id, json.dumps(message))
+                send_message(PAT, sender_id, json.dumps(body)s)
             else:
                 send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
