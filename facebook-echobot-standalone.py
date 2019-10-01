@@ -36,7 +36,7 @@ def handle_messages():
             else:
                 send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
-            print (e)
+            
             traceback.print_exc()
     return "ok"
 
