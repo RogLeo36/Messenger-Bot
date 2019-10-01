@@ -28,6 +28,7 @@ def handle_messages():
 
     # Handle messages
     for sender_id, message in messaging_events(payload):
+        print(payload)
         # Start processing valid requests
         try:
             response = processIncoming(sender_id, message)
