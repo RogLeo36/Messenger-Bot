@@ -8,6 +8,7 @@ from flask import Flask, request
 
 application = Flask(__name__)
 app = application
+HEADERS = {'content-type': 'application/json'}
 PAT = 'EAAqZCCHcyVggBAGnQA5CxxRsQLDzSZBDi2MskESYH3SWNdMQVZAIZC3ZCLaeW21YjQNd3UPKU5E0uriyZCPP2YuIEKKVadfwx6dZCaZA3oU4umHMSmHEYfx61jkJZAoTGPAJsuiVGZARbZBu2XP1a7WwgKqV4qa2egQpkiY27tyofWP7QZDZD'
 VERIFICATION_TOKEN = 'asdfghjkl'
 SEND_API_URL = 'https://graph.facebook.com/v2.12/me/messages?access_token=%s'\
