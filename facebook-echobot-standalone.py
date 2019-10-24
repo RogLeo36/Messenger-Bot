@@ -117,6 +117,8 @@ def messaging_events(payload):
         elif "quick_reply" in event["message"]:
             data = event["message"]["quick_reply"]["payload"]
             yield sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
+        elif "reaction" in event["message"]:
+            yield sender_id,{'type':'text', 'data': data}
         
         else:
             yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
