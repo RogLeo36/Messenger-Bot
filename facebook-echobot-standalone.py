@@ -128,8 +128,7 @@ def messaging_events(payload):
             data = event["message"]["quick_reply"]["payload"]
             yield sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
         
-        else:
-            yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
+        
 
 # Allows running with simple `python <filename> <port>`
 if __name__ == '__main__':
