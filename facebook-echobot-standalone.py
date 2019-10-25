@@ -58,6 +58,9 @@ def processIncoming(user_id, message):
         audio_url = message['data']
         return "I've received audio %s"%(audio_url)
 
+    elif message['type'] == 'reaction':
+        return message['data']
+
     # Unrecognizable incoming, remove context and reset all data to start afresh
     else:
         return "*scratch my head*"
@@ -126,7 +129,7 @@ def messaging_events(payload):
             yield sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
         
         else:
-            yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
+            yield sender_id, {'type':'text','data':"I don't understand this"}
 
 # Allows running with simple `python <filename> <port>`
 if __name__ == '__main__':
