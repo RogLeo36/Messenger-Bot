@@ -30,7 +30,8 @@ def handle_messages():
     for sender_id, message in messaging_events(payload):
         print(payload)
         # Start processing valid requests
-
+        if message is None:
+            continue
         try:
             # send_message(PAT, sender_id, json.dumps(body))
             response = processIncoming(sender_id, message)
@@ -108,6 +109,7 @@ def messaging_events(payload):
                 longitude = coordinates['long']
 
                 yield sender_id, {'type':'location','data':[latitude, longitude],'message_id': event['message']['mid']}
+            #ao
 
             # Audio
             elif "audio" == event['message']['attachments'][0]["type"]:
