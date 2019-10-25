@@ -86,7 +86,7 @@ def messaging_events(payload):
         sender_id = event["sender"]["id"]
 
         if "reaction" in event:
-            print event
+            print(event)
             yield sender_id, {'type':'reaction', 'data': data}
 
         # Not a message
