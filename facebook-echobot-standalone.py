@@ -82,11 +82,11 @@ def messaging_events(payload):
     
     data = json.loads(payload)
     messaging_events = data["entry"][0]["messaging"]
-    
     for event in messaging_events:
         sender_id = event["sender"]["id"]
 
         if "reaction" in event:
+            print event
             yield sender_id, {'type':'reaction', 'data': data}
 
         # Not a message
