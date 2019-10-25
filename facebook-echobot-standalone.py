@@ -87,16 +87,16 @@ def messaging_events(payload):
         sender_id = event["sender"]["id"]
 
         if "reaction" in event:
-            yield sender_id, {'type':'reaction', 'data': data}
+            return sender_id, {'type':'reaction', 'data': data}
 
         # Not a message
         if "message" not in event:
-            yield sender_id, None
+            return sender_id, None
 
         # Pure text message
         if "message" in event and "text" in event["message"] and "quick_reply" not in event["message"]:
             data = event["message"]["text"].encode('unicode_escape')
-            yield sender_id, {'type':'text', 'data': data, 'message_id': event['message']['mid']}
+            return sender_id, {'type':'text', 'data': data, 'message_id': event['message']['mid']}
 
         # Message with attachment (location, audio, photo, file, etc)
         elif "attachments" in event["message"]:
@@ -108,27 +108,27 @@ def messaging_events(payload):
                 latitude = coordinates['lat']
                 longitude = coordinates['long']
 
-                yield sender_id, {'type':'location','data':[latitude, longitude],'message_id': event['message']['mid']}
+                return sender_id, {'type':'location','data':[latitude, longitude],'message_id': event['message']['mid']}
             #ao
 
             # Audio
             elif "audio" == event['message']['attachments'][0]["type"]:
                 audio_url = event['message'][
                     'attachments'][0]['payload']['url']
-                yield sender_id, {'type':'audio','data': audio_url, 'message_id': event['message']['mid']}
+                return sender_id, {'type':'audio','data': audio_url, 'message_id': event['message']['mid']}
             
             else:
-                yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
+                return sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
         
         # Quick reply message type
         elif "quick_reply" in event["message"]:
             data = event["message"]["quick_reply"]["payload"]
-            yield sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
+            return sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
         elif "reaction" in event["message"]:
-            yield sender_id,{'type':'text', 'data': data}
+            return sender_id,{'type':'text', 'data': data}
         
         else:
-            yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
+            return sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
 
 # Allows running with simple `python <filename> <port>`
 if __name__ == '__main__':
