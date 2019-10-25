@@ -32,13 +32,13 @@ def handle_messages():
         # Start processing valid requests
 
         try:
-            send_message(PAT, sender_id, json.dumps(body))
-            # response = processIncoming(sender_id, message)
+            # send_message(PAT, sender_id, json.dumps(body))
+            response = processIncoming(sender_id, message)
             
-            # if response is not None:
-            #     send_message(PAT, sender_id, json.dumps(body))
-            # else:
-            #     send_message(PAT, sender_id, "Sorry I don't understand that")
+            if response is not None:
+                send_message(PAT, sender_id, json.dumps(body))
+            else:
+                send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
             
             traceback.print_exc()
@@ -84,6 +84,9 @@ def messaging_events(payload):
     
     for event in messaging_events:
         sender_id = event["sender"]["id"]
+
+        if "reaction" in event:
+            yield sender_id, {'type':'reaction', 'data': data}
 
         # Not a message
         if "message" not in event:
