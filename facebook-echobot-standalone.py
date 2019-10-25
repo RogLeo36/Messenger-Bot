@@ -8,7 +8,7 @@ from flask import Flask, request
 
 application = Flask(__name__)
 app = application
-PAT = 'EAAqZCCHcyVggBAGnQA5CxxRsQLDzSZBDi2MskESYH3SWNdMQVZAIZC3ZCLaeW21YjQNd3UPKU5E0uriyZCPP2YuIEKKVadfwx6dZCaZA3oU4umHMSmHEYfx61jkJZAoTGPAJsuiVGZARbZBu2XP1a7WwgKqV4qa2egQpkiY27tyofWP7QZDZD'
+PAT = 'EAAqZCCHcyVggBAPk2dEuXBAFumsAYsF3TLDibFgQz0wUhDEtukJgvgEZB868ZCxlWoUNVDMjjQUtSYZCClDIMrEq5T4FxFKtKfQ5viObInQ7bWZAzknARQt7cLhh6LUR5sbckhw4mySrZCQxkNcZCC9Th3O0pXPu65Bknyqim8EsUkEZAjzsBTSZBFTOKjFcYywkZD'
 VERIFICATION_TOKEN = 'asdfghjkl'
 
 @app.route('/', methods=['GET'])
@@ -30,13 +30,15 @@ def handle_messages():
     for sender_id, message in messaging_events(payload):
         print(payload)
         # Start processing valid requests
+
         try:
-            response = processIncoming(sender_id, message)
+            send_message(PAT, sender_id, json.dumps(body))
+            # response = processIncoming(sender_id, message)
             
-            if response is not None:
-                send_message(PAT, sender_id, json.dumps(body))
-            else:
-                send_message(PAT, sender_id, "Sorry I don't understand that")
+            # if response is not None:
+            #     send_message(PAT, sender_id, json.dumps(body))
+            # else:
+            #     send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
             
             traceback.print_exc()
