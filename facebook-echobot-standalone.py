@@ -99,7 +99,7 @@ def messaging_events(payload):
             yield sender_id, {'type':'text', 'data': data, 'message_id': event['message']['mid']}
 
         # Message with attachment (location, audio, photo, file, etc)
-        elif "attachments" in event["message"]:
+        elif "message" in event and "attachments" in event["message"]:
 
             # Location 
             if "location" == event['message']['attachments'][0]["type"]:
@@ -121,11 +121,9 @@ def messaging_events(payload):
                 yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
         
         # Quick reply message type
-        elif "quick_reply" in event["message"]:
+        elif "message" in event and "quick_reply" in event["message"]:
             data = event["message"]["quick_reply"]["payload"]
             yield sender_id, {'type':'quick_reply','data': data, 'message_id': event['message']['mid']}
-        elif "reaction" in event["message"]:
-            yield sender_id,{'type':'text', 'data': data}
         
         else:
             yield sender_id, {'type':'text','data':"I don't understand this", 'message_id': event['message']['mid']}
