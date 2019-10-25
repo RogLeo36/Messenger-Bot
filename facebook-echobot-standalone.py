@@ -38,8 +38,8 @@ def handle_messages():
             
             if response is not None:
                 send_message(PAT, sender_id, json.dumps(body))
-            else:
-                send_message(PAT, sender_id, "Sorry I don't understand that")
+            # else:
+            #     send_message(PAT, sender_id, "Sorry I don't understand that")
         except:
             
             traceback.print_exc()
@@ -62,8 +62,8 @@ def processIncoming(user_id, message):
         return message['data']
 
     # Unrecognizable incoming, remove context and reset all data to start afresh
-    else:
-        return "*scratch my head*"
+    # else:
+    #     return "*scratch my head*"
 
 
 def send_message(token, user_id, text):
